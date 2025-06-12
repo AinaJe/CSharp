@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Text; // Nepieciešams Encoding klasei
 
 class Program
 {
     static void Main(string[] args)
     {
+        // Iestata konsoles izvades un ievades kodējumu uz UTF-8
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Console.InputEncoding = System.Text.Encoding.UTF8; // Ieteicams arī ievadei
+
         Console.WriteLine("Vārda un uzvārda apvienošanas programma.");
         Console.WriteLine("--------------------------------------");
 
@@ -38,3 +43,4 @@ class Program
         Console.ReadKey();
     }
 }
+
