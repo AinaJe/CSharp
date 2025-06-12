@@ -48,7 +48,6 @@ class Program
         }
 
 
-
         // 6. Aprēķinām summu
         int summa = pirmaisSkaitlis + otraisSkaitlis;
 
