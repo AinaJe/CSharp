@@ -9,86 +9,52 @@ class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.InputEncoding = System.Text.Encoding.UTF8; // Ieteicams arī ievadei
 
-        Console.WriteLine("Mēneša nosaukuma noteikšana:");
-        Console.WriteLine("-------------------------------------");
+        Console.WriteLine("Skaitļu izvade ar dažādiem cikliem:");
+        Console.WriteLine("-----------------------------------");
 
-        int menesaNumurs;
-        bool ievadeDeriga;
+        // 1. Izvade ar while ciklu
+        Console.WriteLine("Izvade ar while ciklu:");
+        int i = 1; // Inicializējam skaitītāju
+        while (i <= 10) // Nosacījums: kamēr i ir mazāks vai vienāds ar 10
+        {
+            Console.WriteLine(i);
+            i++; // Palielinām skaitītāju par 1
+        }
+        Console.WriteLine(); // Tukša rinda estētikai
 
-        // Nepārtraukti prasām ievadi, līdz lietotājs ievada derīgu skaitli no 1 līdz 12
+        // 2. Izvade ar do-while ciklu
+        Console.WriteLine("Izvade ar do-while ciklu:");
+        int j = 1; // Inicializējam skaitītāju
         do
         {
-            Console.Write("Lūdzu, ievadiet mēneša numuru (1-12): ");
-            string ievadeTeksts = Console.ReadLine();
+            Console.WriteLine(j);
+            j++; // Palielinām skaitītāju par 1
+        } while (j <= 10); // Nosacījums: kamēr j ir mazāks vai vienāds ar 10 (pārbaudīts pēc izpildes)
+        Console.WriteLine();
 
-            // Mēģinām pārvērst tekstu par int
-            ievadeDeriga = int.TryParse(ievadeTeksts, out menesaNumurs);
-
-            // Pārbaudām, vai ievade ir skaitlis un ir diapazonā no 1 līdz 12
-            if (!ievadeDeriga)
-            {
-                Console.WriteLine("Kļūda: Nederīga ievade. Lūdzu, ievadiet veselu skaitli.");
-            }
-            else if (menesaNumurs < 1 || menesaNumurs > 12)
-            {
-                Console.WriteLine("Kļūda: Numuram jābūt no 1 līdz 12.");
-                ievadeDeriga = false; // Atkārtot ciklu
-            }
-
-        } while (!ievadeDeriga);
-
-        string menesaNosaukums;
-
-        // Izmantojam switch paziņojumu, lai noteiktu mēneša nosaukumu
-        switch (menesaNumurs)
+        // 3. Izvade ar for ciklu
+        Console.WriteLine("Izvade ar for ciklu:");
+        for (int k = 1; k <= 10; k++) // (Inicializācija; Nosacījums; Iterācija)
         {
-            case 1:
-                menesaNosaukums = "Janvāris";
-                break;
-            case 2:
-                menesaNosaukums = "Februāris";
-                break;
-            case 3:
-                menesaNosaukums = "Marts";
-                break;
-            case 4:
-                menesaNosaukums = "Aprīlis";
-                break;
-            case 5:
-                menesaNosaukums = "Maijs";
-                break;
-            case 6:
-                menesaNosaukums = "Jūnijs";
-                break;
-            case 7:
-                menesaNosaukums = "Jūlijs";
-                break;
-            case 8:
-                menesaNosaukums = "Augusts";
-                break;
-            case 9:
-                menesaNosaukums = "Septembris";
-                break;
-            case 10:
-                menesaNosaukums = "Oktobris";
-                break;
-            case 11:
-                menesaNosaukums = "Novembris";
-                break;
-            case 12:
-                menesaNosaukums = "Decembris";
-                break;
-            // 'default' bloks tiek izpildīts, ja 'menesaNumurs' neatbilst nevienam 'case'
-            // Šajā gadījumā tas, visticamāk, netiks sasniegts, jo mēs jau validējam ievadi
-            default:
-                menesaNosaukums = "Nezināms mēneša numurs";
-                break;
+            Console.WriteLine(k);
         }
+        Console.WriteLine();
 
-        Console.WriteLine($"\nMēnesis ar numuru {menesaNumurs} ir {menesaNosaukums}.");
+        // 4. Masīva izveide un izvade ar foreach ciklu
+        Console.WriteLine("Masīva izvade ar foreach ciklu:");
+
+        // Izveidojam virkņu masīvu ar 5 vārdiem
+        string[] vardi = { "Alnis", "Bērzs", "Ciedrs", "Dadzis", "Egle" };
+
+        // Izmantojam foreach ciklu, lai iterētu cauri katram elementam masīvā
+        foreach (string vards in vardi)
+        {
+            Console.WriteLine(vards);
+        }
+        Console.WriteLine();
 
         // Gaidām, kamēr lietotājs nospiež jebkuru taustiņu, lai konsole neaizvērtos uzreiz
-        Console.WriteLine("\nNospiediet jebkuru taustiņu, lai pabeigtu...");
+        Console.WriteLine("Nospiediet jebkuru taustiņu, lai pabeigtu...");
         Console.ReadKey();
     }
 }
