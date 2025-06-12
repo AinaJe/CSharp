@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Text; // Nepieciešams Encoding klasei
 
-// Klases definīcija
-class Student
+// Bāzes klase (Base Class)
+class Vehicle
 {
-    // Īpašības (Properties)
-    // 'public' nozīmē, ka šīm īpašībām var piekļūt no jebkuras vietas programmā.
-    // 'string' ir teksta datu tips, 'int' ir vesela skaitļa datu tips.
-    public string Vards { get; set; }
-    public int Vecums { get; set; }
-
-    // Metode
-    // 'public' nozīmē, ka šo metodi var izsaukt no jebkuras vietas.
-    // 'void' nozīmē, ka metode neatgriež nekādu vērtību.
-    public void Sveicinaties()
+    // Metode, kas simulē transportlīdzekļa kustību
+    public void Move()
     {
-        Console.WriteLine($"Sveiki! Mani sauc {Vards} un man ir {Vecums} gadi.");
+        Console.WriteLine("Transportlīdzeklis pārvietojas.");
+    }
+}
+
+// Atvasinātā klase (Derived Class) - Bicycle manto no Vehicle
+// Kolons (:) norāda mantojumu. Bicycle ir Vehicle veids.
+class Bicycle : Vehicle
+{
+    // Metode, kas ir unikāla velosipēdam
+    public void RingBell()
+    {
+        Console.WriteLine("Velosipēds zvana zvaniņu: Ding! Ding!");
     }
 }
 
@@ -27,32 +30,20 @@ class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.InputEncoding = System.Text.Encoding.UTF8; // Ieteicams arī ievadei
 
-        Console.WriteLine("Studenta objekta izveide un metodes izsaukšana.");
-        Console.WriteLine("---------------------------------------------");
+        Console.WriteLine("Mantojuma demonstrācija ar Vehicle un Bicycle klasēm.");
+        Console.WriteLine("-----------------------------------------------------");
 
-        // 1. Izveidojam jaunu Student klases objektu
-        // 'new Student()' izsauc Student klases konstruktoru un izveido jaunu objektu atmiņā.
-        // 'students1' ir mainīgais, kas glabā atsauci uz šo objektu.
-        Student students1 = new Student();
+        // 1. Izveidojam jaunu Bicycle klases objektu
+        // Tā kā Bicycle manto no Vehicle, Bicycle objektam ir pieejamas abas metodes.
+        Bicycle mansVelosipeds = new Bicycle();
 
-        // 2. Piešķiram vērtības objekta īpašībām
-        students1.Vards = "Anna";
-        students1.Vecums = 20;
+        // 2. Izsaucam mantoto metodi no Vehicle klases
+        Console.Write("Izsaucam mantoto Move() metodi: ");
+        mansVelosipeds.Move();
 
-        // 3. Izsaucam objekta metodi
-        // Mēs izmantojam 'students1' objektu, lai piekļūtu tā metodei 'Sveicinaties()'.
-        students1.Sveicinaties(); // Izvada: "Sveiki! Mani sauc Anna un man ir 20 gadi."
-
-        Console.WriteLine("\nIzveidojam vēl vienu studenta objektu...");
-
-        // Var izveidot arī citu Student objektu
-        Student students2 = new Student
-        {
-            Vards = "Jānis",
-            Vecums = 22
-        };
-
-        students2.Sveicinaties(); // Izvada: "Sveiki! Mani sauc Jānis un man ir 22 gadi."
+        // 3. Izsaucam Bicycle klases unikālo metodi
+        Console.Write("Izsaucam Bicycle klases RingBell() metodi: ");
+        mansVelosipeds.RingBell();
 
         // Gaidām, kamēr lietotājs nospiež jebkuru taustiņu, lai konsole neaizvērtos uzreiz
         Console.WriteLine("\nNospiediet jebkuru taustiņu, lai pabeigtu...");
