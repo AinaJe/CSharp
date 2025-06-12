@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq; // Nepieciešams OrderByDescending metodei
 using System.Text; // Nepieciešams Encoding klasei
 
 class Program
@@ -9,49 +10,61 @@ class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.InputEncoding = System.Text.Encoding.UTF8; // Ieteicams arī ievadei
 
-        Console.WriteLine("Skaitļu izvade ar dažādiem cikliem:");
-        Console.WriteLine("-----------------------------------");
+        Console.WriteLine("Skaitļu masīva kārtošana.");
+        Console.WriteLine("--------------------------");
 
-        // 1. Izvade ar while ciklu
-        Console.WriteLine("Izvade ar while ciklu:");
-        int i = 1; // Inicializējam skaitītāju
-        while (i <= 10) // Nosacījums: kamēr i ir mazāks vai vienāds ar 10
+        // 1. Izveidojam masīvu ar 5 skaitļiem
+        int[] skaitli = { 5, 2, 8, 1, 9 };
+        int[] skaitliKopija = new int[skaitli.Length]; // Izveidojam kopiju, lai demonstrētu visas metodes neatkarīgi
+        Array.Copy(skaitli, skaitliKopija, skaitli.Length);
+
+        Console.WriteLine("Sākotnējais masīvs:");
+        foreach (int sk in skaitli)
         {
-            Console.WriteLine(i);
-            i++; // Palielinām skaitītāju par 1
+            Console.Write($"{sk} ");
         }
-        Console.WriteLine(); // Tukša rinda estētikai
+        Console.WriteLine("\n"); // Pāriet jaunā rindā
 
-        // 2. Izvade ar do-while ciklu
-        Console.WriteLine("Izvade ar do-while ciklu:");
-        int j = 1; // Inicializējam skaitītāju
-        do
+        // 2. Sakārtošana augošā secībā (Ascending Order)
+        Array.Sort(skaitli); // Kārto sākotnējo masīvu
+        Console.WriteLine("Masīvs augošā secībā (Array.Sort):");
+        foreach (int sk in skaitli)
         {
-            Console.WriteLine(j);
-            j++; // Palielinām skaitītāju par 1
-        } while (j <= 10); // Nosacījums: kamēr j ir mazāks vai vienāds ar 10 (pārbaudīts pēc izpildes)
-        Console.WriteLine();
-
-        // 3. Izvade ar for ciklu
-        Console.WriteLine("Izvade ar for ciklu:");
-        for (int k = 1; k <= 10; k++) // (Inicializācija; Nosacījums; Iterācija)
-        {
-            Console.WriteLine(k);
+            Console.Write($"{sk} ");
         }
-        Console.WriteLine();
+        Console.WriteLine("\n");
 
-        // 4. Masīva izveide un izvade ar foreach ciklu
-        Console.WriteLine("Masīva izvade ar foreach ciklu:");
-
-        // Izveidojam virkņu masīvu ar 5 vārdiem
-        string[] vardi = { "Alnis", "Bērzs", "Ciedrs", "Dadzis", "Egle" };
-
-        // Izmantojam foreach ciklu, lai iterētu cauri katram elementam masīvā
-        foreach (string vards in vardi)
+        // 3. Sakārtošana dilstošā secībā, izmantojot Array.Sort() + Array.Reverse()
+        // (Turpina ar iepriekš sakārtoto masīvu, kas tagad ir augošā secībā)
+        Array.Reverse(skaitli); // Apgriež jau augošā secībā sakārtoto masīvu
+        Console.WriteLine("Masīvs dilstošā secībā (Array.Sort + Array.Reverse):");
+        foreach (int sk in skaitli)
         {
-            Console.WriteLine(vards);
+            Console.Write($"{sk} ");
         }
-        Console.WriteLine();
+        Console.WriteLine("\n");
+
+        // 4. Sakārtošana dilstošā secībā, izmantojot Array.Sort() ar pielāgotu salīdzinātāju
+        // Izmantojam masīva kopiju, lai sāktu no sākotnējā stāvokļa demonstrācijai
+        Array.Sort(skaitliKopija, (a, b) => b.CompareTo(a)); // Pielāgotais salīdzinātājs
+        Console.WriteLine("Masīvs dilstošā secībā (Array.Sort ar pielāgotu salīdzinātāju):");
+        foreach (int sk in skaitliKopija)
+        {
+            Console.Write($"{sk} ");
+        }
+        Console.WriteLine("\n");
+
+        // 5. Sakārtošana dilstošā secībā, izmantojot LINQ OrderByDescending()
+        // Atkārtoti inicializējam masīvu vai izmantojam jaunu, lai demonstrētu no "svaiga" sākuma
+        int[] skaitliLinqDemo = { 5, 2, 8, 1, 9 };
+        var dilstošaisMasivsLinq = skaitliLinqDemo.OrderByDescending(s => s);
+
+        Console.WriteLine("Masīvs dilstošā secībā (LINQ OrderByDescending):");
+        foreach (int sk in dilstošaisMasivsLinq)
+        {
+            Console.Write($"{sk} ");
+        }
+        Console.WriteLine("\n");
 
         // Gaidām, kamēr lietotājs nospiež jebkuru taustiņu, lai konsole neaizvērtos uzreiz
         Console.WriteLine("Nospiediet jebkuru taustiņu, lai pabeigtu...");
