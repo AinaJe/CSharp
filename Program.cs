@@ -30,8 +30,6 @@ class Program
             pirmaisSkaitlisTeksts = Console.ReadLine();
         }
 
-
-
         // 4. Prasām otro skaitli
         Console.Write("Lūdzu, ievadiet otro skaitli: ");
 
