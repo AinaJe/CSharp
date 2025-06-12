@@ -1,6 +1,23 @@
 ﻿using System;
-using System.Linq; // Nepieciešams OrderByDescending metodei
 using System.Text; // Nepieciešams Encoding klasei
+
+// Klases definīcija
+class Student
+{
+    // Īpašības (Properties)
+    // 'public' nozīmē, ka šīm īpašībām var piekļūt no jebkuras vietas programmā.
+    // 'string' ir teksta datu tips, 'int' ir vesela skaitļa datu tips.
+    public string Vards { get; set; }
+    public int Vecums { get; set; }
+
+    // Metode
+    // 'public' nozīmē, ka šo metodi var izsaukt no jebkuras vietas.
+    // 'void' nozīmē, ka metode neatgriež nekādu vērtību.
+    public void Sveicinaties()
+    {
+        Console.WriteLine($"Sveiki! Mani sauc {Vards} un man ir {Vecums} gadi.");
+    }
+}
 
 class Program
 {
@@ -10,64 +27,35 @@ class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.InputEncoding = System.Text.Encoding.UTF8; // Ieteicams arī ievadei
 
-        Console.WriteLine("Skaitļu masīva kārtošana.");
-        Console.WriteLine("--------------------------");
+        Console.WriteLine("Studenta objekta izveide un metodes izsaukšana.");
+        Console.WriteLine("---------------------------------------------");
 
-        // 1. Izveidojam masīvu ar 5 skaitļiem
-        int[] skaitli = { 5, 2, 8, 1, 9 };
-        int[] skaitliKopija = new int[skaitli.Length]; // Izveidojam kopiju, lai demonstrētu visas metodes neatkarīgi
-        Array.Copy(skaitli, skaitliKopija, skaitli.Length);
+        // 1. Izveidojam jaunu Student klases objektu
+        // 'new Student()' izsauc Student klases konstruktoru un izveido jaunu objektu atmiņā.
+        // 'students1' ir mainīgais, kas glabā atsauci uz šo objektu.
+        Student students1 = new Student();
 
-        Console.WriteLine("Sākotnējais masīvs:");
-        foreach (int sk in skaitli)
+        // 2. Piešķiram vērtības objekta īpašībām
+        students1.Vards = "Anna";
+        students1.Vecums = 20;
+
+        // 3. Izsaucam objekta metodi
+        // Mēs izmantojam 'students1' objektu, lai piekļūtu tā metodei 'Sveicinaties()'.
+        students1.Sveicinaties(); // Izvada: "Sveiki! Mani sauc Anna un man ir 20 gadi."
+
+        Console.WriteLine("\nIzveidojam vēl vienu studenta objektu...");
+
+        // Var izveidot arī citu Student objektu
+        Student students2 = new Student
         {
-            Console.Write($"{sk} ");
-        }
-        Console.WriteLine("\n"); // Pāriet jaunā rindā
+            Vards = "Jānis",
+            Vecums = 22
+        };
 
-        // 2. Sakārtošana augošā secībā (Ascending Order)
-        Array.Sort(skaitli); // Kārto sākotnējo masīvu
-        Console.WriteLine("Masīvs augošā secībā (Array.Sort):");
-        foreach (int sk in skaitli)
-        {
-            Console.Write($"{sk} ");
-        }
-        Console.WriteLine("\n");
-
-        // 3. Sakārtošana dilstošā secībā, izmantojot Array.Sort() + Array.Reverse()
-        // (Turpina ar iepriekš sakārtoto masīvu, kas tagad ir augošā secībā)
-        Array.Reverse(skaitli); // Apgriež jau augošā secībā sakārtoto masīvu
-        Console.WriteLine("Masīvs dilstošā secībā (Array.Sort + Array.Reverse):");
-        foreach (int sk in skaitli)
-        {
-            Console.Write($"{sk} ");
-        }
-        Console.WriteLine("\n");
-
-        // 4. Sakārtošana dilstošā secībā, izmantojot Array.Sort() ar pielāgotu salīdzinātāju
-        // Izmantojam masīva kopiju, lai sāktu no sākotnējā stāvokļa demonstrācijai
-        Array.Sort(skaitliKopija, (a, b) => b.CompareTo(a)); // Pielāgotais salīdzinātājs
-        Console.WriteLine("Masīvs dilstošā secībā (Array.Sort ar pielāgotu salīdzinātāju):");
-        foreach (int sk in skaitliKopija)
-        {
-            Console.Write($"{sk} ");
-        }
-        Console.WriteLine("\n");
-
-        // 5. Sakārtošana dilstošā secībā, izmantojot LINQ OrderByDescending()
-        // Atkārtoti inicializējam masīvu vai izmantojam jaunu, lai demonstrētu no "svaiga" sākuma
-        int[] skaitliLinqDemo = { 5, 2, 8, 1, 9 };
-        var dilstošaisMasivsLinq = skaitliLinqDemo.OrderByDescending(s => s);
-
-        Console.WriteLine("Masīvs dilstošā secībā (LINQ OrderByDescending):");
-        foreach (int sk in dilstošaisMasivsLinq)
-        {
-            Console.Write($"{sk} ");
-        }
-        Console.WriteLine("\n");
+        students2.Sveicinaties(); // Izvada: "Sveiki! Mani sauc Jānis un man ir 22 gadi."
 
         // Gaidām, kamēr lietotājs nospiež jebkuru taustiņu, lai konsole neaizvērtos uzreiz
-        Console.WriteLine("Nospiediet jebkuru taustiņu, lai pabeigtu...");
+        Console.WriteLine("\nNospiediet jebkuru taustiņu, lai pabeigtu...");
         Console.ReadKey();
     }
 }
