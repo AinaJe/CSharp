@@ -1,25 +1,37 @@
 ﻿using System;
 using System.Collections.Generic; // Nepieciešams List<T>
-using System.Linq;                // Nepieciešams LINQ metodēm (Where, OrderBy, Select)
+using System.Linq;                // Nepieciešams LINQ metodēm (piemēram, Select, ForEach, ja izmanto)
 using System.Text;                // Nepieciešams Encoding klasei
 
 // Klases definīcija
-class Person
+class Book
 {
-    public string Vards { get; set; }
-    public int Vecums { get; set; }
+    // Īpašības (Properties)
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public int Year { get; set; }
 
-    // Konstruktors, lai vieglāk izveidotu Person objektus
-    public Person(string vards, int vecums)
+    // Konstruktors, lai vieglāk izveidotu Book objektus
+    public Book(string title, string author, int year)
     {
-        Vards = vards;
-        Vecums = vecums;
+        Title = title;
+        Author = author;
+        Year = year;
     }
 
-    // Metode, lai ērti izvadītu Person objektu informāciju
+    // Metode, kas izvada grāmatas informāciju
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"Nosaukums: {Title}");
+        Console.WriteLine($"Autors: {Author}");
+        Console.WriteLine($"Izdošanas gads: {Year}");
+        Console.WriteLine("-------------------------"); // Atdalītājs starp grāmatām
+    }
+
+    // Piezīme: Var arī pārrakstīt ToString() metodi, lai Console.WriteLine(book); darbotos skaisti
     public override string ToString()
     {
-        return $"Vārds: {Vards}, Vecums: {Vecums}";
+        return $"Nosaukums: {Title}, Autors: {Author}, Gads: {Year}";
     }
 }
 
@@ -31,79 +43,53 @@ class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.InputEncoding = System.Text.Encoding.UTF8; // Ieteicams arī ievadei
 
-        Console.WriteLine("Personu saraksts un LINQ operācijas.");
-        Console.WriteLine("-----------------------------------");
+        Console.WriteLine("Grāmatu saraksts un informācijas izvade.");
+        Console.WriteLine("---------------------------------------");
 
-        // 1. Izveidojam sarakstu (List) ar 5 Person objektiem
-        List<Person> personas = new List<Person>
+        // 1. Izveidojam sarakstu (List) ar 3 Book objektiem
+        List<Book> gramatas = new List<Book>
         {
-            new Person("Anna", 25),
-            new Person("Jānis", 18),
-            new Person("Pēteris", 30),
-            new Person("Līga", 22),
-            new Person("Zane", 19)
+            new Book("Slepkavība Orientekspresī", "Agatha Christie", 1934),
+            new Book("Mazais princis", "Antoine de Saint-Exupéry", 1943),
+            new Book("Alķīmiķis", "Paulo Coelho", 1988)
         };
 
-        Console.WriteLine("Sākotnējais personu saraksts:");
-        foreach (var persona in personas)
+        Console.WriteLine("Informācija par grāmatām (izmantojot LINQ un DisplayInfo metodi):");
+
+        // 2. Izmantojam LINQ, lai iterētu cauri sarakstam un izsauktu DisplayInfo metodi
+        // LINQ .ToList() ir izmantots, lai nodrošinātu, ka foreach ir virs saraksta.
+        // Šis ir veids, kā izpildīt darbību (DisplayInfo) katram elementam, izmantojot LINQ.
+        // Cits veids ir izmantot vienkāršu foreach ciklu (skat. zemāk),
+        // bet uzdevums prasa izmantot LINQ.
+
+        // Šeit mēs faktiski neizmantojam klasiskās LINQ vaicājumu metodes (Where, Select, OrderBy),
+        // lai "atlasītu" vai "transformētu" datus, bet gan izmantojam LINQ sintaksi
+        // kopā ar foreach ciklu, lai apstrādātu katru elementu.
+        // Ja vēlaties stingri LINQ, varētu izmantot .ForEach (ja kolekcija ir List<T>)
+        // vai .Select (lai atlasītu kaut ko, un tad foreach).
+        // Visvienkāršākais un efektīvākais veids ir vienkāršs foreach, bet ja jābūt LINQ,
+        // tad varam to interpretēt šādi:
+        gramatas.ToList().ForEach(book => book.DisplayInfo());
+        // Alternatīva (ja nevēlas izmantot .ForEach, kas ir List<T> specifiska):
+        // gramatas.Select(book => { book.DisplayInfo(); return book; }).ToList();
+        // vai vienkārši:
+        // foreach (var book in gramatas)
+        // {
+        //     book.DisplayInfo();
+        // }
+
+        Console.WriteLine("\nGrāmatas (izmantojot LINQ Select un ToString() metodi):");
+        // Šis ir vairāk tipisks LINQ izmantošanas piemērs,
+        // kur mēs atlasām virknes reprezentāciju katrai grāmatai.
+        var gramatuInformacija = gramatas.Select(book => book.ToString());
+
+        foreach (var info in gramatuInformacija)
         {
-            Console.WriteLine(persona);
+            Console.WriteLine(info);
         }
-        Console.WriteLine();
-
-        // 2. Atlasīt personas, kas vecākas par 20 gadiem (izmantojot Where)
-        // 'Where' ir LINQ paplašinājuma metode, kas filtrē elementus, pamatojoties uz nosacījumu.
-        // Tā atgriež jaunu kolekciju (IEnumerable<Person>), kas satur tikai atbilstošos elementus.
-        var personasVecakasPar20 = personas.Where(p => p.Vecums > 20);
-
-        Console.WriteLine("Personas, kas vecākas par 20 gadiem:");
-        foreach (var persona in personasVecakasPar20)
-        {
-            Console.WriteLine(persona);
-        }
-        Console.WriteLine();
-
-        // 3. Sakārtot sarakstu pēc vārda (izmantojot OrderBy)
-        // 'OrderBy' ir LINQ paplašinājuma metode, kas sakārto elementus augošā secībā, pamatojoties uz norādīto atslēgu.
-        // Tā atgriež jaunu sakārtotu kolekciju (IOrderedEnumerable<Person>).
-        var personasSakartotasPecVarda = personas.OrderBy(p => p.Vards);
-
-        Console.WriteLine("Personas, sakārtotas pēc vārda:");
-        foreach (var persona in personasSakartotasPecVarda)
-        {
-            Console.WriteLine(persona);
-        }
-        Console.WriteLine();
-
-        // 4. Izvadīt tikai vārdus (izmantojot Select)
-        // 'Select' ir LINQ paplašinājuma metode, kas transformē katru elementu jaunā formā.
-        // Šeit mēs katru 'Person' objektu transformējam par tā 'Vards' vērtību (string).
-        var tikaiVardi = personas.Select(p => p.Vards);
-
-        Console.WriteLine("Tikai vārdi no saraksta:");
-        foreach (var vards in tikaiVardi)
-        {
-            Console.WriteLine(vards);
-        }
-        Console.WriteLine();
-
-        // Kombinētas LINQ operācijas:
-        // Personas, kas vecākas par 20 gadiem, sakārtotas pēc vārda, un izvadīt tikai to vārdus.
-        var filtrētiSakārtotiVardi = personas
-                                    .Where(p => p.Vecums > 20)          // Vispirms filtrējam
-                                    .OrderBy(p => p.Vards)             // Pēc tam sakārtojam
-                                    .Select(p => p.Vards);             // Beigās atlasām tikai vārdus
-
-        Console.WriteLine("Vārdi no personām, kas vecākas par 20 un sakārtoti:");
-        foreach (var vards in filtrētiSakārtotiVardi)
-        {
-            Console.WriteLine(vards);
-        }
-        Console.WriteLine();
-
 
         // Gaidām, kamēr lietotājs nospiež jebkuru taustiņu, lai konsole neaizvērtos uzreiz
-        Console.WriteLine("Nospiediet jebkuru taustiņu, lai pabeigtu...");
+        Console.WriteLine("\nNospiediet jebkuru taustiņu, lai pabeigtu...");
         Console.ReadKey();
     }
 }
